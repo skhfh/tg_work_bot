@@ -1,0 +1,8 @@
+docker_prod
+venv
+.git
+db.sqlite3
+db.sqlite3.bak
+.idea
+.vscode
+.env
