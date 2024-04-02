@@ -9,8 +9,10 @@ from telegram.ext import Updater, Filters, MessageHandler
 
 load_dotenv()
 
-BOT_TOKEN = os.getenv('BOT_TOKEN')
-RECEIVER_ID = os.getenv('EMIL_ID')
+# BOT_TOKEN = os.getenv('BOT_TOKEN')
+BOT_TOKEN = os.getenv('BOT_TOKEN_TEST')
+# RECEIVER_ID = os.getenv('EMIL_ID')
+RECEIVER_ID = os.getenv('MY_ID')
 
 PROJECTS_NAMES = {
     1: ['Технопарк', 'ТП'],
