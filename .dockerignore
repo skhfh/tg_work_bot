@@ -1,8 +1,27 @@
-docker_prod
+# Виртуальное окружение
 venv
+.venv
+
+# git
 .git
-db.sqlite3
-db.sqlite3.bak
+.gitignore
+
+# Настройки IDE
 .idea
 .vscode
+__pycache__/
+
+# База данных
+db.sqlite3
+db.sqlite3.bak
+
+# Конфигурации и настройки
 .env
+
+# Директрории и файлы проекта
+docker_prod
+README.md
+tg_work_bot/test_file.py
+tg_work_bot/db_test_file.py
+tg_work_bot/*.db
+tg_work_bot/table_report.xlsx

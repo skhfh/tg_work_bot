@@ -21,7 +21,7 @@ def program_first_start(conn, cur):
         responsible TEXT,
         status INTEGER DEFAULT 1 CHECK (status IN (0, 1))
     );
-    
+
     CREATE TABLE IF NOT EXISTS Reports(
         id INTEGER PRIMARY KEY,
         project_id INTEGER NOT NULL,
@@ -34,7 +34,7 @@ def program_first_start(conn, cur):
         FOREIGN KEY(project_id) REFERENCES Projects(id) ON DELETE CASCADE
         UNIQUE (project_id, date)
     );
-    
+
     CREATE INDEX IF NOT EXISTS idx_date ON Reports(date);
     ''')
 
@@ -82,10 +82,12 @@ def get_project_id(cur, search_name):
     ).fetchone()[0]
 
 
-def get_project_report_data(cur, search_name, date):
+def get_project_report_data(cur, date):
     """Получение данных из БД для формирования сообщений сводных отчетов.
-    Возвращаемый кортеж данных: имя проекта, короткое имя проекта,
-    кол-во ИТР, рабочих, людей в ночь, всего людей, выполнение ПП"""
+    Возвращаемый список кортежей данных по проектам на указанную дату:
+    имя проекта, короткое имя проекта, кол-во ИТР, рабочих, людей в ночь,
+    всего людей, выполнение ПП.
+    Или пустой список в случае если данных на этот день нет"""
     result = cur.execute(f'''
         SELECT Projects.name,
                Projects.short_name,
@@ -94,12 +96,12 @@ def get_project_report_data(cur, search_name, date):
                Reports.night_people,
                Reports.people_sum,
                Reports.progress
-        FROM Projects, Reports
-        WHERE Projects.id = Reports.project_id
-              AND Projects.search_name = "{search_name}"
-              AND Reports.date = "{date}"
+        FROM Reports
+        JOIN Projects ON Projects.id = Reports.project_id
+        WHERE Reports.date = "{date}"
+        ORDER BY Reports.project_id
         ''')
-    return result.fetchone()
+    return result.fetchall()
 
 
 def get_projects_names(cur, short_name=False, search_name=False):
@@ -115,6 +117,12 @@ def get_projects_names(cur, short_name=False, search_name=False):
 
 
 def get_today_reports_amount(cur, date):
+    return cur.execute(
+        f'SELECT COUNT(*) FROM Reports WHERE date = "{date}"'
+    ).fetchone()[0]
+
+
+def get_today_report_search_names(cur, date):
     return cur.execute(
         f'SELECT COUNT(*) FROM Reports WHERE date = "{date}"'
     ).fetchone()[0]
