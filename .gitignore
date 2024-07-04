@@ -131,3 +131,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+*.db
+
+# extra files
+test_file.py
+db_test_file.py
+table_report.xlsx
