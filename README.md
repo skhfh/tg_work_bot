@@ -14,8 +14,8 @@
 ### Технологии:
 - Python 3.9
 - python-telegram-bot 13.7
-- schedule 1.2.1
-- Pandas 2.2.2
+- schedule 1.2
+- Pandas 2.2
 - SQLite
 - Docker / Docker Compose
   
