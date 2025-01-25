@@ -29,6 +29,8 @@ try:
 except AttributeError:
     pass
 
+# Флаг для пути файла DB
+PROD_DB = False
 
 # Настройки расписания сообщений
 SLEEP_PERIOD_SCHEDULE = 20
@@ -364,8 +366,10 @@ if __name__ == '__main__':
     is_actual_reports = False
 
     # Подключение базы данных и создание таблиц с проектами (если их нет)
-    with sqlite3.connect('db/projects_report.db',
-                         check_same_thread=False) as connection:
+
+    with sqlite3.connect(
+            'db/projects_report.db' if PROD_DB else '../projects_report.db',
+            check_same_thread=False) as connection:
         connection.execute('PRAGMA foreign_keys = ON;')
         cursor = connection.cursor()
         program_first_start(connection, cursor)
