@@ -3,9 +3,9 @@ import csv
 from peewee import SqliteDatabase
 
 from models import Project, Report
+from tg_work_bot.utilts.config import DATABASE
 
-
-db = SqliteDatabase('projects.db')
+db = SqliteDatabase(DATABASE)
 
 def init_db():
     """Инициализация базы данных.
@@ -28,4 +28,4 @@ def init_db():
 
 # init_db()
 
-# Report.insert(project_id=3, engineer=1, worker=4, night_people=3, progress=0.6).execute()
+Report.insert(project_id=1, engineer=1, worker=4, night_people=3, people_sum=5, progress=0.6).execute()

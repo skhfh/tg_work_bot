@@ -2,7 +2,9 @@ import datetime
 from peewee import SqliteDatabase, SQL
 from peewee import Model, CharField, BooleanField, ForeignKeyField, DateField, IntegerField, FloatField
 
-db = SqliteDatabase('projects.db')
+from tg_work_bot.utilts.config import DATABASE
+
+db = SqliteDatabase(DATABASE)
 
 class Project(Model):
     """Модель проектов"""
@@ -25,10 +27,13 @@ class Project(Model):
         database = db
         table_name = 'projects'
 
+    def __str__(self):
+        return self.name
+
 
 class Report(Model):
     """Модель отчетов"""
-    project_id = ForeignKeyField(Project,
+    project = ForeignKeyField(Project,
                                  backref='reports',
                                  on_delete='CASCADE')
     date = DateField(default=datetime.date.today,
@@ -36,7 +41,7 @@ class Report(Model):
     engineer = IntegerField(verbose_name='Количество инженеров')
     worker = IntegerField(verbose_name='Количество рабочих')
     night_people = IntegerField(verbose_name='Количество людей в ночь')
-    people_sum = IntegerField(default=0, verbose_name='Общее количество людей')
+    people_sum = IntegerField(verbose_name='Общее количество людей')
     progress = FloatField(verbose_name='Процент выполнения проекта')
 
     class Meta:
@@ -46,23 +51,9 @@ class Report(Model):
             SQL('UNIQUE (project_id, date)')
         ]
 
+    def __str__(self):
+        return self.formatted_date + ' -- ' + str(self.project)
+
     @property
     def formatted_date(self):
         return self.date.strftime('%d-%m-%Y') if self.date else None
-
-    def save(self, *args, **kwargs):
-        # Автоматический расчет people_sum при сохранении
-        self.people_sum = self.engineer + self.worker
-        return super().save(*args, **kwargs)
-
-    @classmethod
-    def create(cls, **query):
-        # Перехват create() и автоматический расчет people_sum
-        query["people_sum"] = query.get("engineer", 0) + query.get("worker", 0)
-        return super().create(**query)
-
-    @classmethod
-    def insert(cls, **query):
-        # Перехват insert() и автоматический расчет people_sum
-        query["people_sum"] = query.get("engineer", 0) + query.get("worker", 0)
-        return super().insert(**query)
