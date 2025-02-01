@@ -6,6 +6,8 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt --no-cache-dir
 
-COPY tg_work_bot/ .
+COPY . .
 
-CMD ["python", "tg_work_bot.py"]
+ENV PYTHONPATH=/app
+
+CMD ["python", "tg_work_bot/bot/bot.py"]

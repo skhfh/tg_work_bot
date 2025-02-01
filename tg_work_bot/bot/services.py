@@ -3,11 +3,15 @@ import re
 
 import telegram
 
-from tg_work_bot.models.models import Project, Report
-from tg_work_bot.config.settings import (REPORT_DATA_PARAMS,
-                                         SEARCH_PARAMS_IN_MESSAGE, REPORT_SEND_TIMES, RECEIVERS_ID, GROUP_ID)
-from tg_work_bot.bot.message_templates import (TEXT_HEADER_RESPONSE, SHORT_TEXT_HEADER_RESPONSE, TEXT_BODY_RESPONSE, SHORT_TEXT_BODY_RESPONSE)
+from tg_work_bot.bot.message_templates import (SHORT_TEXT_BODY_RESPONSE,
+                                               SHORT_TEXT_HEADER_RESPONSE,
+                                               TEXT_BODY_RESPONSE,
+                                               TEXT_HEADER_RESPONSE)
 from tg_work_bot.config.config import actual_reports_flag
+from tg_work_bot.config.settings import (GROUP_ID, RECEIVERS_ID,
+                                         REPORT_DATA_PARAMS, REPORT_SEND_TIMES,
+                                         SEARCH_PARAMS_IN_MESSAGE)
+from tg_work_bot.models.models import Project, Report
 
 
 def message_text_handler(text_list):
@@ -129,7 +133,7 @@ def generate_text_messages():
         all_workers_number += worker
         project_names_of_actual_reports.append(project_name)
 
-    projects = (Project.select(Project.name,Project.short_name)
+    projects = (Project.select(Project.name, Project.short_name)
                 .where(Project.status == True).execute())
 
     # Для проектов, по которым отсутствуют данные, проставляем 0.

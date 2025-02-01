@@ -1,15 +1,14 @@
-import schedule
 import time
+
+import schedule
 import telegram
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
 from tg_work_bot.bot.handlers import (generate_and_send_table_report,
-                                      generate_reports,
-                                      start_button)
+                                      generate_reports, start_button)
 from tg_work_bot.bot.services import send_report_at_the_same_time
 from tg_work_bot.config.config import actual_reports_flag
-from tg_work_bot.config.settings import (BOT_TOKEN,
-                                         REPORT_SEND_TIMES,
+from tg_work_bot.config.settings import (BOT_TOKEN, REPORT_SEND_TIMES,
                                          SLEEP_PERIOD_SCHEDULE)
 from tg_work_bot.models.base import init_db
 
@@ -42,8 +41,9 @@ def main():
         schedule.run_pending()
         time.sleep(SLEEP_PERIOD_SCHEDULE)
 
+
 if __name__ == '__main__':
-    #Инициализация БД и наполнение таблиц с проектами (если таблица пустая)
+    # Инициализация БД и наполнение таблиц с проектами (если таблица пустая)
     init_db()
 
     # выполнение основного кода с запуском ТГ бота

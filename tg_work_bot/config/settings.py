@@ -2,9 +2,8 @@ import os
 
 from dotenv import load_dotenv
 
-
 # Флаг для пути файла БД: True - в продакшене, False - разработка/тестирование
-PROD_DB = False
+PROD_DB = True
 
 # Имя БД
 DATABASE_NAME = 'projects_report.db'
@@ -18,8 +17,9 @@ DATABASE = (DATABASE_PROD_PATH + DATABASE_NAME if PROD_DB
             else DATABASE_DEV_PATH + DATABASE_NAME)
 
 # Файл с первоначальными данными для таблицы Проектов
-INITIAL_DATA_PATH = '../fixtures/initial_data.csv'
-
+INITIAL_DATA_PATH = '/fixtures/initial_data.csv'
+INITIAL_DATA_PATH = ('tg_work_bot' + INITIAL_DATA_PATH if PROD_DB
+                     else '..' + INITIAL_DATA_PATH)
 
 # Подгрузка виртуального окружения
 load_dotenv()

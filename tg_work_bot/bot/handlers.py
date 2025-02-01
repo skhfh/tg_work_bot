@@ -1,13 +1,17 @@
 import datetime
 
-import telegram
 import pandas as pd
+import telegram
 
-from tg_work_bot.models.models import Project, Report
-from tg_work_bot.config.settings import GROUP_ID, STRINGS_NUBER_CUT_FROM_TG_MESSAGE, RECEIVERS_ID
-from tg_work_bot.bot.services import report_data_updater, generate_text_messages, send_message_to_several_receivers
 from tg_work_bot.bot.message_templates import NOT_VALID_DATA_RESPONSE
+from tg_work_bot.bot.services import (generate_text_messages,
+                                      report_data_updater,
+                                      send_message_to_several_receivers)
 from tg_work_bot.config.config import actual_reports_flag
+from tg_work_bot.config.settings import (GROUP_ID, RECEIVERS_ID,
+                                         STRINGS_NUBER_CUT_FROM_TG_MESSAGE)
+from tg_work_bot.models.models import Project, Report
+
 
 def start_button(update, context):
     """Инициализация кнопки start и добавление кнопки (Прислать Excel отчет)"""
@@ -20,7 +24,8 @@ def start_button(update, context):
         chat_id=chat.id,
         text='Можно запросить Excel отчет кнопкой "Прислать Excel отчет"',
         reply_markup=button
-        )
+    )
+
 
 def generate_and_send_table_report(update, context):
     """Генерация отчетных данных в Excel и отправка в чат"""

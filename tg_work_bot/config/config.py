@@ -11,14 +11,17 @@ class ActualReportFlag:
     False - все или часть отчетов не предоставлены"""
     def __init__(self):
         try:
-            if (
-                    Report.select()
-                            .where(Report.date == datetime.date.today())
-                            .count()
-                    == Project.select()
-                    .where(Project.status == True)
-                    .count()
-            ):
+            today_reports_count = (
+                Report.select()
+                .where(Report.date == datetime.date.today())
+                .count()
+            )
+            active_projects_count = (
+                Project.select()
+                .where(Project.status == True)
+                .count()
+            )
+            if today_reports_count == active_projects_count:
                 self.flag = True
             else:
                 self.flag = False

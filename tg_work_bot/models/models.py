@@ -1,10 +1,12 @@
 import datetime
-from peewee import SqliteDatabase, SQL
-from peewee import Model, CharField, BooleanField, ForeignKeyField, DateField, IntegerField, FloatField
+
+from peewee import (SQL, BooleanField, CharField, DateField, FloatField,
+                    ForeignKeyField, IntegerField, Model, SqliteDatabase)
 
 from tg_work_bot.config.settings import DATABASE
 
 db = SqliteDatabase(DATABASE)
+
 
 class Project(Model):
     """Модель проектов"""
@@ -34,8 +36,8 @@ class Project(Model):
 class Report(Model):
     """Модель отчетов"""
     project = ForeignKeyField(Project,
-                                 backref='reports',
-                                 on_delete='CASCADE')
+                              backref='reports',
+                              on_delete='CASCADE')
     date = DateField(default=datetime.date.today,
                      verbose_name='Текущая дата отчета')
     engineer = IntegerField(verbose_name='Количество инженеров')
@@ -52,8 +54,4 @@ class Report(Model):
         ]
 
     def __str__(self):
-        return self.formatted_date + ' -- ' + str(self.project)
-
-    @property
-    def formatted_date(self):
-        return self.date.strftime('%d.%m.%Y') if self.date else None
+        return self.date + ' -- ' + str(self.project)
