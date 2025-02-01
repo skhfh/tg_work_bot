@@ -2,7 +2,7 @@ import datetime
 from peewee import SqliteDatabase, SQL
 from peewee import Model, CharField, BooleanField, ForeignKeyField, DateField, IntegerField, FloatField
 
-from tg_work_bot.utilts.config import DATABASE
+from tg_work_bot.config.settings import DATABASE
 
 db = SqliteDatabase(DATABASE)
 
@@ -56,4 +56,4 @@ class Report(Model):
 
     @property
     def formatted_date(self):
-        return self.date.strftime('%d-%m-%Y') if self.date else None
+        return self.date.strftime('%d.%m.%Y') if self.date else None
