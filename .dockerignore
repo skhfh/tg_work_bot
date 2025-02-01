@@ -21,7 +21,7 @@ db.sqlite3.bak
 # Директрории и файлы проекта
 docker_prod
 README.md
-tg_work_bot/test_file.py
-tg_work_bot/db_test_file.py
+setup.cfg
+tg_work_bot/tests
 tg_work_bot/*.db
-tg_work_bot/table_report.xlsx
+tg_work_bot/*table_report.xlsx
